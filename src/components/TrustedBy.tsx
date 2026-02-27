@@ -1,9 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CLIENT_LOGOS } from "@/lib/constants";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const CATEGORY_TABS = [
+  { id: "home-living", label: "Home & Living", img: "/images/clients/home-living.png" },
+  { id: "property", label: "Property", img: "/images/clients/property.png" },
+  { id: "events", label: "Events", img: "/images/clients/events.png" },
+  { id: "it-tech-automotive", label: "IT & Automotive", img: "/images/clients/it-tech-automotive.png" },
+  { id: "fashion-sports", label: "Fashion & Sports", img: "/images/clients/fashion-sports.png" },
+  { id: "food-beverages", label: "Food & Beverages", img: "/images/clients/food-beverages.png" },
+  { id: "lifestyle-personal-care", label: "Lifestyle & Care", img: "/images/clients/lifestyle-personal-care.png" },
+  { id: "education", label: "Education", img: "/images/clients/education.png" },
+  { id: "travel-accommodation", label: "Travel & Hotels", img: "/images/clients/travel-accommodation.png" },
+];
 
 export default function TrustedBy() {
+  const [activeTab, setActiveTab] = useState(CATEGORY_TABS[0].id);
+
   return (
     <section id="clients" className="bg-soft-white py-20 sm:py-28">
       <div className="mx-auto max-w-5xl px-6">
@@ -22,25 +36,49 @@ export default function TrustedBy() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {CLIENT_LOGOS.map((logo, index) => (
-            <motion.div
-              key={logo}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.5,
-                delay: Math.floor(index / 4) * 0.15 + (index % 4) * 0.05,
-                ease: "easeOut",
-              }}
-              className="group flex h-24 items-center justify-center rounded-2xl bg-light-sand transition-all hover:bg-warm-ivory hover:shadow-sm sm:h-28"
-            >
-              <span className="font-heading text-sm font-bold text-warm-gray/50 transition-colors group-hover:text-warm-amber">
-                {logo}
-              </span>
-            </motion.div>
-          ))}
+        <div className="flex flex-col items-center">
+          {/* Tabs Container */}
+          <div className="relative w-full max-w-[100vw] [mask-image:linear-gradient(to_right,transparent,black_20px,black_calc(100%-20px),transparent)] sm:[mask-image:none]">
+            <div className="mb-12 flex w-full overflow-x-auto pb-4 sm:flex-wrap sm:justify-center gap-3 sm:gap-3 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {CATEGORY_TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`shrink-0 snap-center rounded-full px-5 py-2.5 font-heading text-sm font-semibold transition-all duration-300 ${activeTab === tab.id
+                    ? "bg-deep-espresso text-white shadow-lg shadow-deep-espresso/20"
+                    : "bg-light-sand text-warm-gray hover:bg-warm-ivory hover:text-deep-espresso"
+                    }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Category Image Panel */}
+          <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-deep-espresso/5 sm:p-10">
+            <AnimatePresence mode="wait">
+              {CATEGORY_TABS.map(
+                (tab) =>
+                  tab.id === activeTab && (
+                    <motion.div
+                      key={tab.id}
+                      initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.98, y: -10 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="flex w-full items-center justify-center pointer-events-none"
+                    >
+                      <img
+                        src={tab.img}
+                        alt={`${tab.label} partners and clients`}
+                        className="h-auto w-full object-contain"
+                      />
+                    </motion.div>
+                  )
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
