@@ -71,15 +71,16 @@ export const DIFFERENTIATORS = [
 ];
 
 export const TEAM_MEMBERS = [
-  { name: "Jess", handle: "@jess.mhm", role: "Host", bio: "Energetic storyteller with a knack for going viral" },
-  { name: "Emily", handle: "@emily.mhm", role: "Host", bio: "Brand voice specialist & on-camera natural" },
-  { name: "Wei Kei", handle: "@weikei.mhm", role: "Host", bio: "Creative director of all things content" },
-  { name: "Pika Pink", handle: "@pikapink.mhm", role: "Host", bio: "Live streaming queen across platforms" },
-  { name: "Zi Qi", handle: "@ziqi.mhm", role: "Host", bio: "Turning brands into household names" },
-  { name: "Ern Ern", handle: "@ernern.mhm", role: "Host", bio: "Master of short-form viral content" },
-  { name: "Jia Xin", handle: "@jiaxin.mhm", role: "Host", bio: "Audience engagement & community builder" },
-  { name: "Kar Sing", handle: "@karsing.mhm", role: "Host", bio: "The voice behind our biggest campaigns" },
-  { name: "Kelvy", handle: "@kelvy.mhm", role: "Host", bio: "Bringing brands to life one reel at a time" },
+  { name: "Jess", handle: "@jess.mhm", role: "Host", bio: "Energetic storyteller with a knack for going viral", image: "/hosts/1.png" },
+  { name: "Emily", handle: "@emily.mhm", role: "Host", bio: "Brand voice specialist & on-camera natural", image: "/hosts/2.png" },
+  { name: "Wei Kei", handle: "@weikei.mhm", role: "Host", bio: "Creative director of all things content", image: "/hosts/3.png" },
+  { name: "Pika Pink", handle: "@pikapink.mhm", role: "Host", bio: "Live streaming queen across platforms", image: "/hosts/4.png" },
+  { name: "Zi Qi", handle: "@ziqi.mhm", role: "Host", bio: "Turning brands into household names", image: "/hosts/5.png" },
+  { name: "Ern Ern", handle: "@ernern.mhm", role: "Host", bio: "Master of short-form viral content", image: "/hosts/6.png" },
+  { name: "Jia Xin", handle: "@jiaxin.mhm", role: "Host", bio: "Audience engagement & community builder", image: "/hosts/7.png" },
+  { name: "Kar Sing", handle: "@karsing.mhm", role: "Host", bio: "The voice behind our biggest campaigns", image: "/hosts/8.png" },
+  { name: "Kelvy", handle: "@kelvy.mhm", role: "Host", bio: "Bringing brands to life one reel at a time", image: "/hosts/9.png" },
+  { name: "Yong Er", handle: "@yonger.mhm", role: "Host", bio: "Connecting brands with audiences", image: "/hosts/10.png" },
 ];
 
 export interface StateData {

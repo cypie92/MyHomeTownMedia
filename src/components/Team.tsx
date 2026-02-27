@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TEAM_MEMBERS } from "@/lib/constants";
 
 function InstaCard({
@@ -28,24 +28,33 @@ function InstaCard({
         </div>
 
         {/* Square Image */}
-        <div className="aspect-square w-full bg-light-sand">
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="flex flex-col items-center gap-2 text-warm-gray/40">
-              <svg
-                className="h-16 w-16"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                />
-              </svg>
+        <div className="relative aspect-square w-full bg-light-sand overflow-hidden">
+          {member.image ? (
+            <img
+              src={member.image}
+              alt={member.name}
+              className="h-full w-full object-cover object-top"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <div className="flex flex-col items-center gap-2 text-warm-gray/40">
+                <svg
+                  className="h-16 w-16"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Instagram Footer */}
@@ -86,32 +95,18 @@ function InstaCard({
 
 export default function Team() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [checkScroll]);
+  // Create a massive seamless buffer so we don't run out of elements when scrolling manually
+  const extendedMembers = [...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS];
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
+
+    // We want the click to advance one card width (300px + 20px gap)
     const scrollAmount = 320;
+
+    // Smoothly scroll the container manually
     el.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -119,7 +114,7 @@ export default function Team() {
   };
 
   return (
-    <section id="team" className="bg-soft-white py-20 sm:py-28">
+    <section id="team" className="bg-soft-white py-20 sm:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <motion.div
@@ -137,8 +132,7 @@ export default function Team() {
               Meet the Creators
             </h2>
             <p className="mt-3 max-w-lg font-body text-base text-warm-gray">
-              The voices and faces that bring your brand to life across
-              Malaysia.
+              The voices and faces that bring your brand to life across Malaysia.
             </p>
           </div>
 
@@ -146,8 +140,7 @@ export default function Team() {
           <div className="mt-6 hidden gap-2 sm:mt-0 sm:flex">
             <button
               onClick={() => scroll("left")}
-              disabled={!canScrollLeft}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-deep-espresso/15 disabled:hover:bg-transparent disabled:hover:text-deep-espresso"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
               aria-label="Scroll left"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,8 +149,7 @@ export default function Team() {
             </button>
             <button
               onClick={() => scroll("right")}
-              disabled={!canScrollRight}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-deep-espresso/15 disabled:hover:bg-transparent disabled:hover:text-deep-espresso"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
               aria-label="Scroll right"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,35 +160,29 @@ export default function Team() {
         </motion.div>
       </div>
 
-      {/* Carousel */}
-      <div className="relative">
-        {/* Left fade gradient */}
-        <div
-          className={`pointer-events-none absolute top-0 left-0 z-10 hidden h-full w-20 bg-gradient-to-r from-soft-white to-transparent transition-opacity duration-300 sm:block ${
-            canScrollLeft ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        {/* Right fade gradient */}
-        <div
-          className={`pointer-events-none absolute top-0 right-0 z-10 hidden h-full w-20 bg-gradient-to-l from-soft-white to-transparent transition-opacity duration-300 sm:block ${
-            canScrollRight ? "opacity-100" : "opacity-0"
-          }`}
-        />
+      {/* Interactive CSS Marquee Container */}
+      <div className="relative w-full overflow-hidden">
+        {/* Gradients */}
+        <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-16 bg-gradient-to-r from-soft-white to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute top-0 bottom-0 right-0 z-10 w-16 bg-gradient-to-l from-soft-white to-transparent sm:w-32" />
 
+        {/* 
+          We use a standard overflowing flex container that allows manual scroll via JS buttons.
+          Inside it, the wrapper animates continuously using CSS `animate-marquee`.
+          When hovered, the CSS animation pauses, allowing manual scroll to take visual priority.
+        */}
         <div
           ref={scrollRef}
-          className="scrollbar-hide flex gap-5 overflow-x-auto px-6 pb-4 snap-x snap-mandatory scroll-pl-6 sm:scroll-pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
+          className="scrollbar-hide overflow-x-auto w-full group"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {/* Left spacer for centering on desktop */}
-          <div className="hidden flex-shrink-0 sm:block" style={{ width: "max(0px, calc((100vw - 80rem) / 2))" }} />
-
-          {TEAM_MEMBERS.map((member, index) => (
-            <InstaCard key={member.name} member={member} index={index} />
-          ))}
-
-          {/* Right spacer */}
-          <div className="flex-shrink-0 w-1" />
+          <div className="flex w-max animate-marquee gap-5 hover:[animation-play-state:paused] pr-5">
+            {extendedMembers.map((member, index) => (
+              <div key={`card-${index}`} className="transition-opacity duration-300 group-hover:opacity-50 hover:!opacity-100">
+                <InstaCard member={member} index={index % 10} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
