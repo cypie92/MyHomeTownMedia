@@ -3,16 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
+import Image from "next/image";
 
 export default function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -30,8 +25,9 @@ export default function Navigation() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           {/* Logo */}
-          <a href="#" className="font-heading text-xl font-extrabold text-deep-espresso">
-            My Hometown<span className="text-warm-amber">Media</span>
+          <a href="#" className="flex items-center gap-2 font-heading text-lg sm:text-xl font-extrabold tracking-tight sm:tracking-normal text-deep-espresso">
+            <Image src="/logo.webp" alt="My Hometown Media Logo" width={40} height={40} className="h-8 w-auto sm:h-10 object-contain" />
+            <span>My Hometown<span className="text-warm-amber">Media</span></span>
           </a>
 
           {/* Desktop Nav */}

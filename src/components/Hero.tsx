@@ -8,6 +8,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -78,10 +79,11 @@ export default function Hero() {
             style={{ x: panX, y: panY }}
             className="h-full w-full scale-105"
           >
-            <img
+            <Image
               src="/images/crew.png"
               alt="My Hometown Media Team"
-              className="h-full w-full object-cover object-center"
+              fill
+              className="object-cover object-center"
             />
           </motion.div>
         </motion.div>

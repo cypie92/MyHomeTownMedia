@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const CATEGORY_TABS = [
   { id: "home-living", label: "Home & Living", img: "/images/clients/home-living.png" },
@@ -67,12 +68,13 @@ export default function TrustedBy() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.98, y: -10 }}
                       transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="flex w-full items-center justify-center pointer-events-none"
+                      className="flex w-full items-center justify-center pointer-events-none relative h-[200px]"
                     >
-                      <img
+                      <Image
                         src={tab.img}
                         alt={`${tab.label} partners and clients`}
-                        className="h-auto w-full object-contain"
+                        fill
+                        className="object-contain"
                       />
                     </motion.div>
                   )

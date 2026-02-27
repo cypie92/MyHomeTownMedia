@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { TEAM_MEMBERS } from "@/lib/constants";
+import Image from "next/image";
 
 function InstaCard({
   member,
@@ -30,11 +31,12 @@ function InstaCard({
         {/* Square Image */}
         <div className="relative aspect-square w-full bg-light-sand overflow-hidden">
           {member.image ? (
-            <img
+            <Image
               src={member.image}
               alt={member.name}
+              width={400}
+              height={400}
               className="h-full w-full object-cover object-top"
-              loading="lazy"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
@@ -179,17 +181,6 @@ function MobileSwipeStack() {
   const [isHovering, setIsHovering] = useState(false);
   const [exitX, setExitX] = useState(-300);
 
-  // Auto-swipe every 2.5 seconds if not interacting
-  useEffect(() => {
-    if (isHovering) return;
-
-    const interval = setInterval(() => {
-      handleSwipe("left");
-    }, 2500); // 2.5 seconds to give users a chance to read before swiping
-
-    return () => clearInterval(interval);
-  }, [isHovering]);
-
   // Handle manual or automatic swipe
   const handleSwipe = (direction: "left" | "right" = "left") => {
     setExitX(direction === "left" ? -300 : 300);
@@ -204,6 +195,17 @@ function MobileSwipeStack() {
       });
     }, 50);
   };
+
+  // Auto-swipe every 2.5 seconds if not interacting
+  useEffect(() => {
+    if (isHovering) return;
+
+    const interval = setInterval(() => {
+      handleSwipe("left");
+    }, 2500); // 2.5 seconds to give users a chance to read before swiping
+
+    return () => clearInterval(interval);
+  }, [isHovering]);
 
   return (
     <div
