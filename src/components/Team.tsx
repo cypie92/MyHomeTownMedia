@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { TEAM_MEMBERS } from "@/lib/constants";
 
@@ -93,11 +93,18 @@ function InstaCard({
   );
 }
 
-export default function Team() {
+// Split out the Desktop Marquee into its own sub-component for cleanly managing the two responsive layouts
+function DesktopMarquee() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Create a massive seamless buffer so we don't run out of elements when scrolling manually
-  const extendedMembers = [...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS, ...TEAM_MEMBERS];
+  const extendedMembers = [
+    ...TEAM_MEMBERS,
+    ...TEAM_MEMBERS,
+    ...TEAM_MEMBERS,
+    ...TEAM_MEMBERS,
+    ...TEAM_MEMBERS,
+  ];
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
@@ -114,7 +121,161 @@ export default function Team() {
   };
 
   return (
-    <section id="team" className="bg-soft-white py-20 sm:py-28 overflow-hidden">
+    <div className="hidden w-full flex-col sm:flex">
+      {/* Desktop navigation arrows */}
+      <div className="mx-auto flex w-full max-w-7xl justify-end px-6 pb-6">
+        <div className="flex gap-2">
+          <button
+            onClick={() => scroll("left")}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
+            aria-label="Scroll left"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button
+            onClick={() => scroll("right")}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
+            aria-label="Scroll right"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Interactive CSS Marquee Container */}
+      <div className="relative w-full overflow-hidden">
+        {/* Gradients */}
+        <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-32 bg-gradient-to-r from-soft-white to-transparent" />
+        <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-32 bg-gradient-to-l from-soft-white to-transparent" />
+
+        <div
+          ref={scrollRef}
+          className="group w-full overflow-x-auto scrollbar-hide"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          <div className="flex w-max animate-marquee gap-5 pr-5 hover:[animation-play-state:paused]">
+            {extendedMembers.map((member, index) => (
+              <div
+                key={`desk-card-${index}`}
+                className="transition-opacity duration-300 hover:!opacity-100 group-hover:opacity-50"
+              >
+                <InstaCard member={member} index={index % 10} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Mobile Tinder-style swipe cards
+function MobileSwipeStack() {
+  const [cards, setCards] = useState(TEAM_MEMBERS);
+  const [isHovering, setIsHovering] = useState(false);
+  const [exitX, setExitX] = useState(-300);
+
+  // Auto-swipe every 2.5 seconds if not interacting
+  useEffect(() => {
+    if (isHovering) return;
+
+    const interval = setInterval(() => {
+      handleSwipe("left");
+    }, 2500); // 2.5 seconds to give users a chance to read before swiping
+
+    return () => clearInterval(interval);
+  }, [isHovering]);
+
+  // Handle manual or automatic swipe
+  const handleSwipe = (direction: "left" | "right" = "left") => {
+    setExitX(direction === "left" ? -300 : 300);
+
+    // Short delay to ensure React updates the exitX state before removing the card from the active tree
+    setTimeout(() => {
+      setCards((prev) => {
+        const newArray = [...prev];
+        const movedCard = newArray.shift(); // Remove top card
+        if (movedCard) newArray.push(movedCard); // Move to back of deck
+        return newArray;
+      });
+    }, 50);
+  };
+
+  return (
+    <div
+      className="flex h-[450px] w-full flex-col items-center justify-center sm:hidden"
+      onTouchStart={() => setIsHovering(true)}
+      onTouchEnd={() => setIsHovering(false)}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <div className="relative h-[480px] w-[280px]">
+        <AnimatePresence>
+          {cards.slice(0, 3).map((member, index) => {
+            const isTop = index === 0;
+
+            return (
+              <motion.div
+                key={member.name} // Important: use unique identifier, not index, so React tracks the physical card moving
+                layout
+                initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                animate={{
+                  opacity: 1 - index * 0.15,
+                  scale: 1 - index * 0.05,
+                  y: index * 15,
+                  zIndex: cards.length - index,
+                }}
+                exit={{
+                  x: exitX,
+                  opacity: 0,
+                  scale: 0.8,
+                  transition: { duration: 0.3 },
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                  mass: 0.8,
+                }}
+                className="absolute left-0 top-0 cursor-grab active:cursor-grabbing"
+                drag={isTop ? "x" : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={1} // allow pulling way past container
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipeThreshold = 50; // pixels
+                  const velocityThreshold = 400;
+
+                  // Evaluate swipe direction
+                  const isRightSwipe = offset.x > swipeThreshold || velocity.x > velocityThreshold;
+                  const isLeftSwipe = offset.x < -swipeThreshold || velocity.x < -velocityThreshold;
+
+                  if (isRightSwipe) {
+                    handleSwipe("right");
+                  } else if (isLeftSwipe) {
+                    handleSwipe("left");
+                  }
+                }}
+              >
+                {/* Disable pointer events on cards underneath so only top is draggable */}
+                <div className={isTop ? "" : "pointer-events-none"}>
+                  <InstaCard member={member} index={0} />
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+export default function Team() {
+  return (
+    <section id="team" className="overflow-hidden bg-gradient-to-b from-light-sand/30 to-soft-white pt-10 pb-0 sm:py-28 border-t border-deep-espresso/5">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <motion.div
@@ -125,7 +286,7 @@ export default function Team() {
           className="mb-14 flex flex-col items-center text-center sm:flex-row sm:items-end sm:justify-between sm:text-left"
         >
           <div>
-            <span className="font-body text-xs font-semibold tracking-[0.2em] text-warm-amber uppercase">
+            <span className="font-body text-xs font-semibold uppercase tracking-[0.2em] text-warm-amber">
               Our People
             </span>
             <h2 className="mt-3 font-heading text-3xl font-extrabold text-deep-espresso sm:text-4xl lg:text-5xl">
@@ -135,56 +296,13 @@ export default function Team() {
               The voices and faces that bring your brand to life across Malaysia.
             </p>
           </div>
-
-          {/* Desktop navigation arrows */}
-          <div className="mt-6 hidden gap-2 sm:mt-0 sm:flex">
-            <button
-              onClick={() => scroll("left")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
-              aria-label="Scroll left"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-deep-espresso/15 text-deep-espresso transition-all hover:border-warm-amber hover:bg-warm-amber hover:text-white"
-              aria-label="Scroll right"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            </button>
-          </div>
         </motion.div>
       </div>
 
-      {/* Interactive CSS Marquee Container */}
-      <div className="relative w-full overflow-hidden">
-        {/* Gradients */}
-        <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-16 bg-gradient-to-r from-soft-white to-transparent sm:w-32" />
-        <div className="pointer-events-none absolute top-0 bottom-0 right-0 z-10 w-16 bg-gradient-to-l from-soft-white to-transparent sm:w-32" />
+      {/* Render both layouts. CSS tailwind 'hidden sm:block' determines which is visible */}
+      <MobileSwipeStack />
+      <DesktopMarquee />
 
-        {/* 
-          We use a standard overflowing flex container that allows manual scroll via JS buttons.
-          Inside it, the wrapper animates continuously using CSS `animate-marquee`.
-          When hovered, the CSS animation pauses, allowing manual scroll to take visual priority.
-        */}
-        <div
-          ref={scrollRef}
-          className="scrollbar-hide overflow-x-auto w-full group"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div className="flex w-max animate-marquee gap-5 hover:[animation-play-state:paused] pr-5">
-            {extendedMembers.map((member, index) => (
-              <div key={`card-${index}`} className="transition-opacity duration-300 group-hover:opacity-50 hover:!opacity-100">
-                <InstaCard member={member} index={index % 10} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </section>
   );
 }
