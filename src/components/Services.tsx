@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { AIDA_STEPS } from "@/lib/constants";
+import Scrollytelling from "./Scrollytelling";
 
 function AidaStep({
   step,
@@ -100,7 +101,7 @@ export default function Services() {
   const lineHeight = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "100%"]);
 
   return (
-    <section id="services" ref={sectionRef} className="bg-soft-white py-20 sm:py-28">
+    <section id="services" ref={sectionRef} className="bg-soft-white pt-20 pb-0 sm:pt-28">
       <div className="mx-auto max-w-7xl px-6">
         {/* Section Header */}
         <motion.div
@@ -135,6 +136,11 @@ export default function Services() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Scrollytelling — What We Create */}
+      <div className="mt-20 sm:mt-28">
+        <Scrollytelling />
       </div>
     </section>
   );

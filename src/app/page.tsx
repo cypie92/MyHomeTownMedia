@@ -19,9 +19,9 @@ export default function Home() {
       <About />
       <NetworkMap />
       <Services />
+      <Team />
       <WhyDifferent />
       <TrustedBy />
-      <Team />
       <Contact />
       <Footer />
     </>
