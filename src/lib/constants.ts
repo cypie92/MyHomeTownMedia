@@ -88,23 +88,25 @@ export interface StateData {
   nameMY: string;
   facebook: string | null;
   instagram: string | null;
+  facebookUrl: string | null;
+  instagramUrl: string | null;
 }
 
 export const STATES_DATA: Record<string, StateData> = {
-  perlis: { name: "Perlis", nameMY: "玻璃市", facebook: "Perlis My Hometown 我来自玻璃市", instagram: null },
-  kedah: { name: "Kedah", nameMY: "吉打", facebook: "Kedah My Hometown 我来自吉打", instagram: "Kedah My Hometown 我来自吉打" },
-  penang: { name: "Penang", nameMY: "槟城", facebook: "Penang My Hometown 我来自槟城", instagram: "Penang My Hometown 我来自槟城" },
-  perak: { name: "Perak", nameMY: "霹雳", facebook: "Perak My Hometown 我来自霹雳", instagram: "Perak My Hometown 我来自霹雳" },
-  kelantan: { name: "Kelantan", nameMY: "吉兰丹", facebook: "Kelantan My Hometown 我来自吉兰丹", instagram: null },
-  terengganu: { name: "Terengganu", nameMY: "登嘉楼", facebook: "Terengganu My Hometown 我来自登嘉楼", instagram: null },
-  pahang: { name: "Pahang", nameMY: "彭亨", facebook: "Pahang My Hometown 我来自彭亨", instagram: null },
-  selangor: { name: "Selangor", nameMY: "雪兰莪", facebook: "Selangor My Hometown 我来自雪兰莪", instagram: null },
-  kl: { name: "Kuala Lumpur", nameMY: "吉隆坡", facebook: null, instagram: "KL My Hometown 我来自吉隆坡" },
-  nSembilan: { name: "Negeri Sembilan", nameMY: "森美兰", facebook: "Negeri Sembilan My Hometown 我来自森美兰", instagram: null },
-  melaka: { name: "Melaka", nameMY: "马六甲", facebook: "Melaka My Hometown 我来自马六甲", instagram: null },
-  johor: { name: "Johor", nameMY: "柔佛", facebook: "Johor My Hometown 我来自柔佛", instagram: "Johor My Hometown 我来自柔佛" },
-  sabah: { name: "Sabah", nameMY: "沙巴", facebook: "Sabah My Hometown 我来自沙巴", instagram: null },
-  sarawak: { name: "Sarawak", nameMY: "砂拉越", facebook: "Sarawak My Hometown 我来自砂拉越", instagram: "Sarawak My Hometown 我来自砂拉越" },
+  perlis: { name: "Perlis", nameMY: "玻璃市", facebook: "Perlis My Hometown 我来自玻璃市", instagram: null, facebookUrl: null, instagramUrl: null },
+  kedah: { name: "Kedah", nameMY: "吉打", facebook: "Kedah My Hometown 我来自吉打", instagram: "Kedah My Hometown 我来自吉打", facebookUrl: null, instagramUrl: null },
+  penang: { name: "Penang", nameMY: "槟城", facebook: "Penang My Hometown 我来自槟城", instagram: "Penang My Hometown 我来自槟城", facebookUrl: null, instagramUrl: null },
+  perak: { name: "Perak", nameMY: "霹雳", facebook: "Perak My Hometown 我来自霹雳", instagram: "Perak My Hometown 我来自霹雳", facebookUrl: null, instagramUrl: null },
+  kelantan: { name: "Kelantan", nameMY: "吉兰丹", facebook: "Kelantan My Hometown 我来自吉兰丹", instagram: null, facebookUrl: null, instagramUrl: null },
+  terengganu: { name: "Terengganu", nameMY: "登嘉楼", facebook: "Terengganu My Hometown 我来自登嘉楼", instagram: null, facebookUrl: null, instagramUrl: null },
+  pahang: { name: "Pahang", nameMY: "彭亨", facebook: "Pahang My Hometown 我来自彭亨", instagram: null, facebookUrl: null, instagramUrl: null },
+  selangor: { name: "Selangor", nameMY: "雪兰莪", facebook: "Selangor My Hometown 我来自雪兰莪", instagram: null, facebookUrl: null, instagramUrl: null },
+  kl: { name: "Kuala Lumpur", nameMY: "吉隆坡", facebook: null, instagram: "KL My Hometown 我来自吉隆坡", facebookUrl: null, instagramUrl: null },
+  nSembilan: { name: "Negeri Sembilan", nameMY: "森美兰", facebook: "Negeri Sembilan My Hometown 我来自森美兰", instagram: null, facebookUrl: null, instagramUrl: null },
+  melaka: { name: "Melaka", nameMY: "马六甲", facebook: "Melaka My Hometown 我来自马六甲", instagram: null, facebookUrl: null, instagramUrl: null },
+  johor: { name: "Johor", nameMY: "柔佛", facebook: "Johor My Hometown 我来自柔佛", instagram: "Johor My Hometown 我来自柔佛", facebookUrl: null, instagramUrl: null },
+  sabah: { name: "Sabah", nameMY: "沙巴", facebook: "Sabah My Hometown 我来自沙巴", instagram: null, facebookUrl: null, instagramUrl: null },
+  sarawak: { name: "Sarawak", nameMY: "砂拉越", facebook: "Sarawak My Hometown 我来自砂拉越", instagram: "Sarawak My Hometown 我来自砂拉越", facebookUrl: null, instagramUrl: null },
 };
 
 export const NATIONAL_PAGES = [
