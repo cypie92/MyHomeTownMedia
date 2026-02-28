@@ -265,7 +265,7 @@ function MiniMap({ stateId }: { stateId: string }) {
                 d={path}
                 fill={isSelected ? "#E09145" : hasData ? "#FFF8F0" : "#F0EBE5"}
                 stroke={isSelected ? "#E09145" : hasData ? "#DDD2C5" : "#E0D8CE"}
-                strokeWidth={isSelected ? 2 : 0.8}
+                strokeWidth={isSelected ? 1.5 : 0.3}
                 strokeLinejoin="round"
                 filter={isSelected ? "url(#mini-glow)" : "url(#mini-shadow)"}
               />
@@ -371,7 +371,7 @@ export default function NetworkMap() {
             className="cursor-pointer"
             fill={isActive ? color : hasData ? "#FFF8F0" : "#F0EBE5"}
             stroke={isActive ? color : hasData ? "#DDD2C5" : "#E0D8CE"}
-            strokeWidth={isActive ? 2 : 0.8}
+            strokeWidth={isActive ? 1.5 : 0.3}
             strokeLinejoin="round"
             filter={isSelected ? "url(#state-selected-glow)" : isHovered ? "url(#state-glow)" : "url(#state-shadow)"}
             onMouseEnter={() => setHoveredState(stateId)}
@@ -668,11 +668,6 @@ export default function NetworkMap() {
                 </AnimatePresence>
               </div>
 
-              {/* Legend (desktop only) */}
-              <div className="mt-6 flex items-center justify-center gap-2">
-                <span className="inline-block h-2.5 w-2.5 rounded-full bg-warm-amber ring-2 ring-warm-amber/20" />
-                <span className="font-body text-xs font-medium text-warm-gray">Active state page</span>
-              </div>
             </>
           )}
         </motion.div>
