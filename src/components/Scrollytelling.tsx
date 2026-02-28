@@ -4,6 +4,12 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 
+const slideVariants = {
+  initial: (direction: number) => ({ y: direction > 0 ? "100%" : "-100%" }),
+  animate: { y: "0%" },
+  exit: (direction: number) => ({ y: direction > 0 ? "-100%" : "100%" }),
+};
+
 const SECTIONS = [
   {
     title: "Photo / Content",
@@ -121,9 +127,10 @@ function PhoneMockup({ activeIndex, direction }: { activeIndex: number; directio
             key={activeIndex}
             custom={direction}
             className="absolute inset-0"
-            initial={{ y: direction > 0 ? "100%" : "-100%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: direction > 0 ? "-100%" : "100%" }}
+            variants={slideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
           >
             <Image
@@ -177,8 +184,9 @@ function MobileScrollytelling() {
 
   return (
     <div ref={containerRef} className="md:hidden">
-      {/* Sticky phone at top */}
-      <div className="sticky top-16 z-10 flex justify-center py-6">
+      {/* Sticky phone + text card, centered in viewport */}
+      <div className="sticky top-16 z-10 flex h-[calc(100vh-64px)] flex-col items-center justify-center bg-light-sand">
+        {/* Phone */}
         <div className="relative h-[420px] w-[210px]">
           <div className="absolute inset-[3%] overflow-hidden rounded-[1.8rem]" style={{ zIndex: 0 }}>
             <AnimatePresence initial={false} custom={direction}>
@@ -186,9 +194,10 @@ function MobileScrollytelling() {
                 key={activeIndex}
                 custom={direction}
                 className="absolute inset-0"
-                initial={{ y: direction > 0 ? "100%" : "-100%" }}
-                animate={{ y: "0%" }}
-                exit={{ y: direction > 0 ? "-100%" : "100%" }}
+                variants={slideVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
                 transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
               >
                 <Image
@@ -210,25 +219,33 @@ function MobileScrollytelling() {
             sizes="210px"
           />
         </div>
-      </div>
 
-      {/* Scrolling text cards */}
-      <div className="relative z-20 px-6 pt-4 pb-20">
-        {SECTIONS.map((section, i) => (
-          <div key={i} className="flex min-h-[70vh] items-end pb-12">
+        {/* Text card */}
+        <div className="mt-6 w-full px-6">
+          <AnimatePresence mode="wait">
             <motion.div
-              animate={{ opacity: activeIndex === i ? 1 : 0.3 }}
-              transition={{ duration: 0.4 }}
-              className="rounded-2xl bg-warm-ivory/90 p-6 shadow-sm ring-1 ring-deep-espresso/5 backdrop-blur-md"
+              key={activeIndex}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3 }}
+              className="rounded-2xl bg-warm-ivory/90 p-5 shadow-sm ring-1 ring-deep-espresso/5 backdrop-blur-md"
             >
               <h3 className="font-heading text-2xl font-extrabold text-deep-espresso">
-                {section.title}
+                {SECTIONS[activeIndex].title}
               </h3>
               <p className="mt-2 font-body text-sm leading-relaxed text-warm-gray">
-                {section.description}
+                {SECTIONS[activeIndex].description}
               </p>
             </motion.div>
-          </div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Spacers pulled up over the sticky element so it doesn't add dead scroll distance */}
+      <div className="-mt-[calc(100vh-64px)]">
+        {SECTIONS.map((_, i) => (
+          <div key={i} className="h-screen snap-start snap-always" />
         ))}
       </div>
     </div>
