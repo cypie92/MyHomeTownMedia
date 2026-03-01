@@ -93,31 +93,31 @@ export interface StateData {
 }
 
 export const STATES_DATA: Record<string, StateData> = {
-  perlis: { name: "Perlis", nameMY: "玻璃市", facebook: "Perlis My Hometown 我来自玻璃市", instagram: null, facebookUrl: null, instagramUrl: null },
-  kedah: { name: "Kedah", nameMY: "吉打", facebook: "Kedah My Hometown 我来自吉打", instagram: "Kedah My Hometown 我来自吉打", facebookUrl: null, instagramUrl: null },
-  penang: { name: "Penang", nameMY: "槟城", facebook: "Penang My Hometown 我来自槟城", instagram: "Penang My Hometown 我来自槟城", facebookUrl: null, instagramUrl: null },
-  perak: { name: "Perak", nameMY: "霹雳", facebook: "Perak My Hometown 我来自霹雳", instagram: "Perak My Hometown 我来自霹雳", facebookUrl: null, instagramUrl: null },
-  kelantan: { name: "Kelantan", nameMY: "吉兰丹", facebook: "Kelantan My Hometown 我来自吉兰丹", instagram: null, facebookUrl: null, instagramUrl: null },
-  terengganu: { name: "Terengganu", nameMY: "登嘉楼", facebook: "Terengganu My Hometown 我来自登嘉楼", instagram: null, facebookUrl: null, instagramUrl: null },
-  pahang: { name: "Pahang", nameMY: "彭亨", facebook: "Pahang My Hometown 我来自彭亨", instagram: null, facebookUrl: null, instagramUrl: null },
-  selangor: { name: "Selangor", nameMY: "雪兰莪", facebook: "Selangor My Hometown 我来自雪兰莪", instagram: null, facebookUrl: null, instagramUrl: null },
-  kl: { name: "Kuala Lumpur", nameMY: "吉隆坡", facebook: null, instagram: "KL My Hometown 我来自吉隆坡", facebookUrl: null, instagramUrl: null },
-  nSembilan: { name: "Negeri Sembilan", nameMY: "森美兰", facebook: "Negeri Sembilan My Hometown 我来自森美兰", instagram: null, facebookUrl: null, instagramUrl: null },
-  melaka: { name: "Melaka", nameMY: "马六甲", facebook: "Melaka My Hometown 我来自马六甲", instagram: null, facebookUrl: null, instagramUrl: null },
-  johor: { name: "Johor", nameMY: "柔佛", facebook: "Johor My Hometown 我来自柔佛", instagram: "Johor My Hometown 我来自柔佛", facebookUrl: null, instagramUrl: null },
-  sabah: { name: "Sabah", nameMY: "沙巴", facebook: "Sabah My Hometown 我来自沙巴", instagram: null, facebookUrl: null, instagramUrl: null },
-  sarawak: { name: "Sarawak", nameMY: "砂拉越", facebook: "Sarawak My Hometown 我来自砂拉越", instagram: "Sarawak My Hometown 我来自砂拉越", facebookUrl: null, instagramUrl: null },
+  perlis: { name: "Perlis", nameMY: "玻璃市", facebook: "Perlis My Hometown 我来自玻璃市", instagram: null, facebookUrl: "https://www.facebook.com/PerlisMyHometown", instagramUrl: null },
+  kedah: { name: "Kedah", nameMY: "吉打", facebook: "Kedah My Hometown 我来自吉打", instagram: "Kedah My Hometown 我来自吉打", facebookUrl: "https://www.facebook.com/KedahMyHometown", instagramUrl: "https://www.instagram.com/kedahmyhometown" },
+  penang: { name: "Penang", nameMY: "槟城", facebook: "Penang My Hometown 我来自槟城", instagram: "Penang My Hometown 我来自槟城", facebookUrl: "https://www.facebook.com/PenangMyHometown", instagramUrl: "https://www.instagram.com/penang_my_hometown" },
+  perak: { name: "Perak", nameMY: "霹雳", facebook: "Perak My Hometown 我来自霹雳", instagram: "Perak My Hometown 我来自霹雳", facebookUrl: "https://www.facebook.com/PerakMyHometown", instagramUrl: "https://www.instagram.com/perakmyhometown" },
+  kelantan: { name: "Kelantan", nameMY: "吉兰丹", facebook: "Kelantan My Hometown 我来自吉兰丹", instagram: null, facebookUrl: "https://www.facebook.com/KelantanMyHometown", instagramUrl: null },
+  terengganu: { name: "Terengganu", nameMY: "登嘉楼", facebook: "Terengganu My Hometown 我来自登嘉楼", instagram: null, facebookUrl: "https://www.facebook.com/TerengganuMyHometown", instagramUrl: null },
+  pahang: { name: "Pahang", nameMY: "彭亨", facebook: "Pahang My Hometown 我来自彭亨", instagram: null, facebookUrl: "https://www.facebook.com/PahangMyHometown", instagramUrl: null },
+  selangor: { name: "Selangor", nameMY: "雪兰莪", facebook: "Selangor My Hometown 我来自雪兰莪", instagram: null, facebookUrl: "https://www.facebook.com/SelangorMyHometown", instagramUrl: null },
+  kl: { name: "Kuala Lumpur", nameMY: "吉隆坡", facebook: null, instagram: "KL My Hometown 我来自吉隆坡", facebookUrl: null, instagramUrl: "https://www.instagram.com/klmyhometown" },
+  nSembilan: { name: "Negeri Sembilan", nameMY: "森美兰", facebook: "Negeri Sembilan My Hometown 我来自森美兰", instagram: null, facebookUrl: "https://www.facebook.com/NegeriSembilanMyHometown", instagramUrl: null },
+  melaka: { name: "Melaka", nameMY: "马六甲", facebook: "Melaka My Hometown 我来自马六甲", instagram: null, facebookUrl: "https://www.facebook.com/MelakaMyHometown", instagramUrl: null },
+  johor: { name: "Johor", nameMY: "柔佛", facebook: "Johor My Hometown 我来自柔佛", instagram: "Johor My Hometown 我来自柔佛", facebookUrl: "https://www.facebook.com/JohorMyHometown", instagramUrl: "https://www.instagram.com/johormyhometown" },
+  sabah: { name: "Sabah", nameMY: "沙巴", facebook: "Sabah My Hometown 我来自沙巴", instagram: null, facebookUrl: "https://www.facebook.com/SabahMyHometown", instagramUrl: null },
+  sarawak: { name: "Sarawak", nameMY: "砂拉越", facebook: "Sarawak My Hometown 我来自砂拉越", instagram: "Sarawak My Hometown 我来自砂拉越", facebookUrl: "https://www.facebook.com/SarawakMyHometown", instagramUrl: "https://www.instagram.com/sarawakmyhometown" },
 };
 
 export const NATIONAL_PAGES = [
-  { platform: "facebook", name: "I'm Malaysian 我是马来西亚人" },
-  { platform: "facebook", name: "LiveLah by My Hometown Media" },
-  { platform: "instagram", name: "My Hometown Media" },
-  { platform: "instagram", name: "I'm Malaysian 我是马来西亚人" },
-  { platform: "tiktok", name: "My Hometown Media" },
-  { platform: "tiktok", name: "My Hometown Media TikTok Shop" },
-  { platform: "xhs", name: "My Hometown Media 小红书" },
-  { platform: "xhs", name: "走遍马来西亚" },
+  { platform: "facebook", name: "I'm Malaysian 我是马来西亚人", url: "https://www.facebook.com/ImMalaysianOnline" },
+  { platform: "facebook", name: "LiveLah by My Hometown Media", url: "https://www.facebook.com/LiveLahByMyHometownMedia" },
+  { platform: "instagram", name: "My Hometown Media", url: "https://www.instagram.com/my_hometown_media" },
+  { platform: "instagram", name: "I'm Malaysian 我是马来西亚人", url: "https://www.instagram.com/im_malaysian_" },
+  { platform: "tiktok", name: "My Hometown Media", url: "https://www.tiktok.com/@myhometownmediaofficial" },
+  { platform: "tiktok", name: "My Hometown Media TikTok Shop", url: null },
+  { platform: "xhs", name: "My Hometown Media 小红书", url: "https://xhslink.com/m/6lhyp57fgmO" },
+  { platform: "xhs", name: "走遍马来西亚", url: "https://xhslink.com/m/8IiJzUyGJG8" },
 ];
 
 export const CLIENT_LOGOS = [

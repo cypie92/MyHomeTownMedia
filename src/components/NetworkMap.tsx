@@ -145,6 +145,192 @@ function ChevronRightIcon() {
   );
 }
 
+function ChevronDownIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className ?? "h-3.5 w-3.5"} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+// ─── Gather all links for a given platform ─────────────────────
+interface PlatformLink {
+  name: string;
+  url: string | null;
+  type: "state" | "national";
+}
+
+function getPlatformLinks(platform: string): PlatformLink[] {
+  const links: PlatformLink[] = [];
+
+  // State pages
+  if (platform === "facebook" || platform === "instagram") {
+    const urlKey = platform === "facebook" ? "facebookUrl" : "instagramUrl";
+    const nameKey = platform;
+    for (const stateId of [...WEST_STATE_IDS, ...EAST_STATE_IDS]) {
+      const data = STATES_DATA[stateId];
+      if (data && data[nameKey]) {
+        links.push({
+          name: data[nameKey] as string,
+          url: data[urlKey],
+          type: "state",
+        });
+      }
+    }
+  }
+
+  // National pages
+  for (const page of NATIONAL_PAGES) {
+    if (page.platform === platform) {
+      links.push({
+        name: page.name,
+        url: page.url,
+        type: "national",
+      });
+    }
+  }
+
+  return links;
+}
+
+// ─── Clickable platform pill with dropdown ─────────────────────
+const PLATFORM_COLORS: Record<string, string> = {
+  facebook: "#1877F2",
+  instagram: "#E4405F",
+  tiktok: "#2C1E13",
+  xhs: "#FF2442",
+};
+
+function PlatformPill({
+  platform,
+  count,
+  label,
+  color,
+  isOpen,
+  onToggle,
+}: {
+  platform: string;
+  count: number;
+  label: string;
+  color: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
+  const pillRef = useRef<HTMLDivElement>(null);
+  const links = getPlatformLinks(platform);
+
+  useClickOutside(pillRef, () => {
+    if (isOpen) onToggle();
+  }, isOpen);
+
+  return (
+    <div ref={pillRef} className="relative">
+      <button
+        onClick={onToggle}
+        className={`flex items-center gap-2.5 rounded-full border px-5 py-2.5 shadow-sm transition-all hover:shadow-md ${
+          isOpen
+            ? "border-deep-espresso/15 bg-deep-espresso/[0.03] shadow-md"
+            : "border-deep-espresso/[0.06] bg-white"
+        }`}
+      >
+        <div style={{ color }}>
+          <PlatformIcon platform={platform} />
+        </div>
+        <span className="font-heading text-lg font-extrabold text-deep-espresso">{count}</span>
+        <span className="font-body text-xs text-warm-gray">{label}</span>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="ml-0.5 text-deep-espresso/40"
+        >
+          <ChevronDownIcon className="h-3 w-3" />
+        </motion.div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute bottom-full left-1/2 z-50 mb-3 w-[340px] -translate-x-1/2 rounded-2xl border border-deep-espresso/[0.08] bg-white p-2 shadow-[0_12px_40px_-8px_rgba(44,30,19,0.18)]"
+          >
+            {/* Arrow */}
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
+              <div className="h-3 w-3 rotate-45 rounded-sm border-b border-r border-deep-espresso/[0.08] bg-white" />
+            </div>
+
+            <div className="max-h-[400px] overflow-y-auto overscroll-contain pb-2 scrollbar-thin">
+              {/* State pages */}
+              {links.filter((l) => l.type === "state").length > 0 && (
+                <>
+                  <p className="px-3 pt-2 pb-1.5 font-body text-[10px] font-semibold tracking-widest text-warm-gray/60 uppercase">
+                    State Pages
+                  </p>
+                  {links
+                    .filter((l) => l.type === "state")
+                    .map((link) => (
+                      <LinkRow key={link.name} link={link} color={color} platform={platform} />
+                    ))}
+                </>
+              )}
+
+              {/* National pages */}
+              {links.filter((l) => l.type === "national").length > 0 && (
+                <div className={links.filter((l) => l.type === "state").length > 0 ? "mt-2 border-t border-deep-espresso/[0.06] pt-0.5" : ""}>
+                  <p className="px-3 pt-2 pb-1.5 font-body text-[10px] font-semibold tracking-widest text-warm-gray/60 uppercase">
+                    National Pages
+                  </p>
+                  {links
+                    .filter((l) => l.type === "national")
+                    .map((link) => (
+                      <LinkRow key={link.name} link={link} color={color} platform={platform} />
+                    ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function LinkRow({ link, color, platform }: { link: PlatformLink; color: string; platform: string }) {
+  const inner = (
+    <>
+      <div
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+        style={{ backgroundColor: `${color}10`, color }}
+      >
+        <PlatformIcon platform={platform} className="h-3.5 w-3.5" />
+      </div>
+      <span className="flex-1 truncate font-body text-xs text-deep-espresso/80">{link.name}</span>
+      {link.url && <ExternalLinkIcon />}
+    </>
+  );
+
+  if (link.url) {
+    return (
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition-colors hover:bg-deep-espresso/[0.03]"
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2.5 rounded-xl px-3 py-2 opacity-60">
+      {inner}
+    </div>
+  );
+}
+
 // ─── Staggered card content ─────────────────────────────────────
 const staggerContainer = {
   hidden: {},
@@ -281,6 +467,7 @@ export default function NetworkMap() {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [mobileRegion, setMobileRegion] = useState<MobileRegion>("west");
+  const [openPill, setOpenPill] = useState<string | null>(null);
   const isClosingRef = useRef(false);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const desktopCardRef = useRef<HTMLDivElement>(null);
@@ -686,16 +873,15 @@ export default function NetworkMap() {
             { platform: "tiktok", count: 2, label: "TikTok Accounts", color: "#2C1E13" },
             { platform: "xhs", count: 2, label: "XHS Accounts", color: "#FF2442" },
           ].map((item) => (
-            <div
+            <PlatformPill
               key={item.platform}
-              className="flex items-center gap-2.5 rounded-full border border-deep-espresso/[0.06] bg-white px-5 py-2.5 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div style={{ color: item.color }}>
-                <PlatformIcon platform={item.platform} />
-              </div>
-              <span className="font-heading text-lg font-extrabold text-deep-espresso">{item.count}</span>
-              <span className="font-body text-xs text-warm-gray">{item.label}</span>
-            </div>
+              platform={item.platform}
+              count={item.count}
+              label={item.label}
+              color={item.color}
+              isOpen={openPill === item.platform}
+              onToggle={() => setOpenPill(openPill === item.platform ? null : item.platform)}
+            />
           ))}
         </motion.div>
 
