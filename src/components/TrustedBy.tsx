@@ -1,24 +1,97 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-const CATEGORY_TABS = [
-  { id: "home-living", label: "Home & Living", img: "/images/clients/home-living.png" },
-  { id: "property", label: "Property", img: "/images/clients/property.png" },
-  { id: "events", label: "Events", img: "/images/clients/events.png" },
-  { id: "it-tech-automotive", label: "IT & Automotive", img: "/images/clients/it-tech-automotive.png" },
-  { id: "fashion-sports", label: "Fashion & Sports", img: "/images/clients/fashion-sports.png" },
-  { id: "food-beverages", label: "Food & Beverages", img: "/images/clients/food-beverages.png" },
-  { id: "lifestyle-personal-care", label: "Lifestyle & Care", img: "/images/clients/lifestyle-personal-care.png" },
-  { id: "education", label: "Education", img: "/images/clients/education.png" },
-  { id: "travel-accommodation", label: "Travel & Hotels", img: "/images/clients/travel-accommodation.png" },
+const ROW_1 = [
+  { name: "Brand A", logo: null },
+  { name: "Brand B", logo: null },
+  { name: "Brand C", logo: null },
+  { name: "Brand D", logo: null },
+  { name: "Brand E", logo: null },
+  { name: "Brand F", logo: null },
+  { name: "Brand G", logo: null },
+  { name: "Brand H", logo: null },
+  { name: "Brand I", logo: null },
+  { name: "Brand J", logo: null },
 ];
 
-export default function TrustedBy() {
-  const [activeTab, setActiveTab] = useState(CATEGORY_TABS[0].id);
+const ROW_2 = [
+  { name: "Brand K", logo: null },
+  { name: "Brand L", logo: null },
+  { name: "Brand M", logo: null },
+  { name: "Brand N", logo: null },
+  { name: "Brand O", logo: null },
+  { name: "Brand P", logo: null },
+  { name: "Brand Q", logo: null },
+  { name: "Brand R", logo: null },
+  { name: "Brand S", logo: null },
+  { name: "Brand T", logo: null },
+];
 
+function LogoCard({ name }: { name: string }) {
+  return (
+    <div className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-deep-espresso/5 sm:h-24 sm:w-52">
+      {/* Replace with <Image> when real logos are available */}
+      <span className="font-heading text-xs font-semibold text-warm-gray/60 select-none">
+        {name}
+      </span>
+    </div>
+  );
+}
+
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
+function ScrollRow({
+  brands,
+  direction = "left",
+  duration = 25,
+  mobileDuration = 15,
+}: {
+  brands: typeof ROW_1;
+  direction?: "left" | "right";
+  duration?: number;
+  mobileDuration?: number;
+}) {
+  const isMobile = useIsMobile();
+  const activeDuration = isMobile ? mobileDuration : duration;
+  // Duplicate items to create seamless loop
+  const items = [...brands, ...brands];
+
+  return (
+    <div className="relative w-full overflow-hidden py-3 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <motion.div
+        key={activeDuration}
+        className="flex gap-6"
+        animate={{
+          x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
+        }}
+        transition={{
+          x: {
+            duration: activeDuration,
+            repeat: Infinity,
+            ease: "linear",
+          },
+        }}
+      >
+        {items.map((brand, i) => (
+          <LogoCard key={`${brand.name}-${i}`} name={brand.name} />
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+export default function TrustedBy() {
   return (
     <section id="clients" className="bg-soft-white py-20 sm:py-28">
       <div className="mx-auto max-w-5xl px-6">
@@ -36,52 +109,11 @@ export default function TrustedBy() {
             Trusted by Brands Across Malaysia
           </h2>
         </motion.div>
+      </div>
 
-        <div className="flex flex-col items-center">
-          {/* Tabs Container */}
-          <div className="relative w-full max-w-[100vw] [mask-image:linear-gradient(to_right,transparent,black_20px,black_calc(100%-20px),transparent)] sm:[mask-image:none]">
-            <div className="mb-12 flex w-full overflow-x-auto pb-4 sm:flex-wrap sm:justify-center gap-3 sm:gap-3 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {CATEGORY_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`shrink-0 snap-center rounded-full px-5 py-2.5 font-heading text-sm font-semibold transition-all duration-300 ${activeTab === tab.id
-                    ? "bg-deep-espresso text-white shadow-lg shadow-deep-espresso/20"
-                    : "bg-light-sand text-warm-gray hover:bg-warm-ivory hover:text-deep-espresso"
-                    }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Category Image Panel */}
-          <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-deep-espresso/5 sm:p-10">
-            <AnimatePresence mode="wait">
-              {CATEGORY_TABS.map(
-                (tab) =>
-                  tab.id === activeTab && (
-                    <motion.div
-                      key={tab.id}
-                      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.98, y: -10 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="flex w-full items-center justify-center pointer-events-none relative h-[200px]"
-                    >
-                      <Image
-                        src={tab.img}
-                        alt={`${tab.label} partners and clients`}
-                        fill
-                        className="object-contain"
-                      />
-                    </motion.div>
-                  )
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+      <div className="flex flex-col gap-4">
+        <ScrollRow brands={ROW_1} direction="left" duration={25} />
+        <ScrollRow brands={ROW_2} direction="right" duration={25} />
       </div>
     </section>
   );
