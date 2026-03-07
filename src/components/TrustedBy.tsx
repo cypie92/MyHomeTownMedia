@@ -93,7 +93,7 @@ function ScrollRow({
 
 export default function TrustedBy() {
   return (
-    <section id="clients" className="bg-soft-white py-20 sm:py-28">
+    <section id="clients" className="bg-light-sand py-20 sm:py-28">
       <div className="mx-auto max-w-5xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

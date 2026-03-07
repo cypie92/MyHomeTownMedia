@@ -18,10 +18,10 @@ export default function Home() {
       <Stats />
       <About />
       <NetworkMap />
-      <Services />
-      <Team />
-      <WhyDifferent />
       <TrustedBy />
+      <Services />
+      <WhyDifferent />
+      <Team />
       <Contact />
       <Footer />
     </>

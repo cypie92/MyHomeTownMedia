@@ -277,7 +277,7 @@ function MobileSwipeStack() {
 
 export default function Team() {
   return (
-    <section id="team" className="overflow-hidden bg-gradient-to-b from-light-sand/30 to-soft-white pt-10 pb-0 sm:py-28 border-t border-deep-espresso/5">
+    <section id="team" className="overflow-hidden bg-soft-white pt-10 pb-0 sm:py-28">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <motion.div
