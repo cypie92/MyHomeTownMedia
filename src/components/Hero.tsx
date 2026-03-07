@@ -1,146 +1,218 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useRef, useEffect } from "react";
-import Image from "next/image";
+import { motion } from "framer-motion";
+import { useRef, useEffect, useState, useCallback } from "react";
+
+// YouTube IFrame API type declarations
+declare global {
+  interface Window {
+    YT: {
+      Player: new (
+        el: HTMLElement,
+        config: {
+          videoId: string;
+          playerVars: Record<string, number | string>;
+          events: Record<string, (e: unknown) => void>;
+        }
+      ) => YTPlayer;
+      PlayerState: { ENDED: number };
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
+interface YTPlayer {
+  mute: () => void;
+  playVideo: () => void;
+  seekTo: (seconds: number) => void;
+  destroy: () => void;
+}
+
+const YOUTUBE_VIDEO_ID = "ht9ZTLa1CuI";
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
+  const playerContainerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
-  // Existing vertical scroll parallax
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const resizeVideo = useCallback(() => {
+    const container = playerContainerRef.current;
+    if (!container) return;
 
-  // Mouse hover panning parallax (gyroscope effect)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+    const iframe = container.querySelector("iframe");
+    if (!iframe) return;
 
-  // Smooth out the raw mouse coordinates so the image doesn't snap instantly
-  const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const smoothMouseY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    const videoRatio = 16 / 9;
+    const containerRatio = containerWidth / containerHeight;
 
-  // Transform normalized mouse (-1 to 1) into subtle physical pixel movement across the screen
-  const panX = useTransform(smoothMouseX, [-1, 1], [-15, 15]);
-  const panY = useTransform(smoothMouseY, [-1, 1], [-15, 15]);
+    let width: number;
+    let height: number;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!sectionRef.current) return;
-    const { left, top, width, height } = sectionRef.current.getBoundingClientRect();
+    // Scale to cover the container, like CSS object-fit: cover
+    if (containerRatio > videoRatio) {
+      width = containerWidth;
+      height = containerWidth / videoRatio;
+    } else {
+      height = containerHeight;
+      width = containerHeight * videoRatio;
+    }
 
-    // Calculate normalized position from center (-1 to 1)
-    const x = (e.clientX - left - width / 2) / (width / 2);
-    const y = (e.clientY - top - height / 2) / (height / 2);
+    iframe.style.width = `${width}px`;
+    iframe.style.height = `${height}px`;
+  }, []);
 
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  // Reset image perfectly to center when mouse leaves the banner
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
-  // Trigger slight initial pan on mount for visual interest
   useEffect(() => {
-    mouseX.set(0.1);
-    mouseY.set(-0.1);
-    const timeout = setTimeout(() => {
-      mouseX.set(0);
-      mouseY.set(0);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [mouseX, mouseY]);
+    let player: YTPlayer | null = null;
+
+    const onPlayerReady = () => {
+      if (player) {
+        player.mute();
+        player.playVideo();
+      }
+    };
+
+    const onPlayerStateChange = (event: unknown) => {
+      const { data } = event as { data: number };
+      // When video ends, loop it
+      if (data === window.YT.PlayerState.ENDED && player) {
+        player.seekTo(0);
+        player.playVideo();
+      }
+      // When video starts playing, fade in
+      if (data === 1) {
+        setVideoReady(true);
+      }
+    };
+
+    const createPlayer = () => {
+      const el = document.getElementById("yt-hero-player");
+      if (!el) return;
+
+      player = new window.YT.Player(el, {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          rel: 0,
+          showinfo: 0,
+          mute: 1,
+          playsinline: 1,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          disablekb: 1,
+          fs: 0,
+          loop: 1,
+          playlist: YOUTUBE_VIDEO_ID,
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+        },
+      });
+      playerRef.current = player;
+
+      // Initial resize after iframe is created
+      setTimeout(resizeVideo, 100);
+    };
+
+    // Load YouTube IFrame API if not already loaded
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = createPlayer;
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+    }
+
+    window.addEventListener("resize", resizeVideo);
+
+    return () => {
+      window.removeEventListener("resize", resizeVideo);
+      if (player) {
+        try {
+          player.destroy();
+        } catch {
+          // Player may already be destroyed
+        }
+      }
+    };
+  }, [resizeVideo]);
 
   return (
-    <section
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative flex min-h-[calc(100svh-76px)] items-center justify-center overflow-hidden"
-    >
-      {/* Absolute Full Screen Background Image */}
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          style={{ y: imageY }}
-          className="h-[120%] w-full"
+    <div>
+      {/* Sticky video section — stays pinned while page scrolls over it */}
+      <section
+        className="sticky top-0 z-0 aspect-video h-auto overflow-hidden md:aspect-auto md:h-[calc(100svh-76px)]"
+      >
+        {/* YouTube Video Background */}
+        <div
+          ref={playerContainerRef}
+          className={`absolute inset-0 overflow-hidden transition-opacity duration-1000 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ pointerEvents: "none" }}
         >
-          {/* Inner motion container translates X/Y based on mouse, scaled slightly to avoid edge peeking */}
+          <div
+            id="yt-hero-player"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+        </div>
+
+        {/* Fallback background while video loads */}
+        <div
+          className={`absolute inset-0 bg-deep-espresso transition-opacity duration-1000 ${
+            videoReady ? "opacity-0" : "opacity-100"
+          }`}
+        />
+
+        {/* Subtle overlay for visual depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-deep-espresso/20 via-transparent to-deep-espresso/30" />
+      </section>
+
+      {/* Content section — scrolls up and covers the video */}
+      <section className="relative z-10 bg-deep-espresso md:-mt-10 md:rounded-t-3xl md:bg-[#FBE8D3]/25 md:shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:backdrop-blur-sm">
+        <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-6 pt-10 pb-10 text-center md:pt-20 md:pb-20">
           <motion.div
-            style={{ x: panX, y: panY }}
-            className="h-full w-full scale-105"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <Image
-              src="/images/crew.png"
-              alt="My Hometown Media Team"
-              fill
-              className="object-cover object-center"
-            />
+            <span className="mb-6 inline-block rounded-full border border-soft-white/40 bg-soft-white/25 px-4 py-1.5 font-body text-xs font-semibold tracking-wide text-soft-white uppercase backdrop-blur-md">
+              Malaysia&apos;s Leading Social Media Marketing Agency
+            </span>
           </motion.div>
-        </motion.div>
-      </div>
 
-      {/* Dark Overlay Tint to make white text readable */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-deep-espresso/90 via-deep-espresso/60 to-deep-espresso/40" />
-
-      {/* Foreground Content Stack */}
-      <div className="relative z-20 mx-auto flex w-full max-w-4xl flex-col items-center px-6 pt-32 pb-20 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <span className="mb-6 inline-block rounded-full border border-soft-white/20 bg-soft-white/10 px-4 py-1.5 font-body text-xs font-semibold tracking-wide text-soft-white uppercase backdrop-blur-md">
-            Malaysia&apos;s Leading Social Media Marketing Agency
-          </span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="mt-2 font-heading text-4xl leading-tight font-extrabold text-white sm:text-6xl lg:text-7xl"
-        >
-          Empowering Brands
-          <br className="hidden sm:block" />
-          <span className="sm:hidden"> </span>
-          Through <span className="text-warm-amber">Digital Stories</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-          className="mt-6 max-w-2xl font-body text-lg leading-relaxed text-soft-white/90 sm:text-xl"
-        >
-          We build lasting brand value through innovative, data-driven social
-          media strategies — reaching over 100 million people monthly across
-          Malaysia.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: "easeOut" }}
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-        >
-          <a
-            href="#about"
-            className="inline-block rounded-full bg-warm-amber px-10 py-4 font-heading text-lg font-bold text-white shadow-xl shadow-warm-amber/20 transition-all hover:-translate-y-1 hover:bg-warm-amber-hover hover:shadow-2xl hover:shadow-warm-amber/30"
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+            className="mt-2 font-heading text-4xl leading-tight font-extrabold text-white sm:text-6xl lg:text-7xl"
           >
-            Explore Our Work
-          </a>
-        </motion.div>
-      </div>
-    </section>
+            Empowering Brands
+            <br className="hidden sm:block" />
+            <span className="sm:hidden"> </span>
+            Through <span className="text-warm-amber">Digital Stories</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="mt-6 max-w-2xl font-body text-lg leading-relaxed text-soft-white/90 sm:text-xl"
+          >
+            We build lasting brand value through innovative, data-driven social
+            media strategies — reaching over 100 million people monthly across
+            Malaysia.
+          </motion.p>
+
+        </div>
+      </section>
+    </div>
   );
 }
