@@ -61,7 +61,7 @@ export function ThemeSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-xl shadow-lg bg-warm-ivory ring-1 ring-deep-espresso/10 z-50 overflow-hidden border border-deep-espresso/10">
+        <div className="absolute left-0 mt-2 w-56 rounded-xl shadow-lg bg-warm-ivory ring-1 ring-deep-espresso/10 z-50 overflow-hidden border border-deep-espresso/10">
           <div className="p-3" role="menu" aria-orientation="vertical">
             {/* Dark/Light mode toggle */}
             <div className="flex items-center justify-between mb-3 pb-3 border-b border-deep-espresso/10">
