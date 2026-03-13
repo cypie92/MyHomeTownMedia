@@ -6,6 +6,7 @@ import { STATES_DATA, NATIONAL_PAGES } from "@/lib/constants";
 import { STATE_PATHS, STATE_CENTERS } from "@/lib/malaysia-svg";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import Image from "next/image";
 
 // Bring East Malaysia (Borneo) closer to West Malaysia (Peninsular)
 const EAST_MALAYSIA = new Set(["sarawak", "sabah", "labuan"]);
@@ -203,14 +204,12 @@ const PLATFORM_COLORS: Record<string, string> = {
 
 function PlatformPill({
   platform,
-  count,
   label,
   color,
   isOpen,
   onToggle,
 }: {
   platform: string;
-  count: number;
   label: string;
   color: string;
   isOpen: boolean;
@@ -227,23 +226,22 @@ function PlatformPill({
     <div ref={pillRef} className="relative">
       <button
         onClick={onToggle}
-        className={`flex items-center gap-2.5 rounded-full border px-5 py-2.5 shadow-sm transition-all hover:shadow-md ${
+        className={`flex items-center gap-3.5 rounded-full border px-7 py-3.5 shadow-sm transition-all hover:shadow-md ${
           isOpen
             ? "border-deep-espresso/15 bg-deep-espresso/[0.03] shadow-md"
             : "border-deep-espresso/[0.06] bg-white"
         }`}
       >
         <div style={{ color }}>
-          <PlatformIcon platform={platform} />
+          <PlatformIcon platform={platform} className="h-5 w-5" />
         </div>
-        <span className="font-heading text-lg font-extrabold text-deep-espresso">{count}</span>
-        <span className="font-body text-xs text-warm-gray">{label}</span>
+        <span className="font-body text-sm text-deep-espresso font-semibold">{label}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="ml-0.5 text-deep-espresso/40"
+          className="ml-1 text-deep-espresso/40"
         >
-          <ChevronDownIcon className="h-3 w-3" />
+          <ChevronDownIcon className="h-4 w-4" />
         </motion.div>
       </button>
 
@@ -865,18 +863,17 @@ export default function NetworkMap() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.35, ease: "easeOut" }}
-          className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-3 sm:gap-4"
+          className="mx-auto mt-10 flex max-w-5xl flex-wrap items-center justify-center gap-3 sm:gap-4 lg:flex-nowrap"
         >
           {[
-            { platform: "facebook", count: 15, label: "Facebook Pages", color: "#1877F2" },
-            { platform: "instagram", count: 8, label: "Instagram Pages", color: "#E4405F" },
-            { platform: "tiktok", count: 2, label: "TikTok Accounts", color: "#2C1E13" },
-            { platform: "xhs", count: 2, label: "XHS Accounts", color: "#FF2442" },
+            { platform: "facebook", label: "Facebook Pages", color: "#1877F2" },
+            { platform: "instagram", label: "Instagram Pages", color: "#E4405F" },
+            { platform: "tiktok", label: "TikTok Accounts", color: "#2C1E13" },
+            { platform: "xhs", label: "XHS Accounts", color: "#FF2442" },
           ].map((item) => (
             <PlatformPill
               key={item.platform}
               platform={item.platform}
-              count={item.count}
               label={item.label}
               color={item.color}
               isOpen={openPill === item.platform}
@@ -885,24 +882,32 @@ export default function NetworkMap() {
           ))}
         </motion.div>
 
-        {/* National pages */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-          className="mx-auto mt-8 max-w-2xl text-center"
-        >
-          <p className="font-body text-sm leading-relaxed text-warm-gray">
-            Plus national flagship pages:{" "}
-            {NATIONAL_PAGES.map((page, i) => (
-              <span key={i}>
-                <span className="font-medium text-deep-espresso/60">{page.name}</span>
-                {i < NATIONAL_PAGES.length - 1 && <span className="text-warm-gray/30"> &middot; </span>}
-              </span>
+        {/* National Pages Marquee */}
+        <div className="relative mx-auto mt-12 w-full max-w-5xl overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <motion.div
+             className="flex w-max gap-6 px-3"
+             animate={{ x: ["0%", "-50%"] }}
+             transition={{ x: { duration: 40, repeat: Infinity, ease: "linear" } }}
+          >
+            {[...NATIONAL_PAGES, ...NATIONAL_PAGES].map((page, i) => (
+              <a
+                key={`${page.name}-${i}`}
+                href={page.url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-deep-espresso/[0.08] bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:h-24 sm:w-24"
+              >
+                {/* Image Placeholder */}
+                <Image
+                  src="/images/national-placeholder.png"
+                  alt={page.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+              </a>
             ))}
-          </p>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       {/* ── Mobile Bottom Sheet ── */}

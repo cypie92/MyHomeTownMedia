@@ -137,7 +137,7 @@ export default function WhyDifferent() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-            className="mt-12 text-center"
+            className="mt-12 hidden text-center"
           >
             <button
               onClick={() => setShowModal(true)}

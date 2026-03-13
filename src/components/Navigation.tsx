@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import Image from "next/image";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -24,11 +25,14 @@ export default function Navigation() {
         className="sticky top-0 z-50 w-full transition-all duration-300 bg-soft-white/95 backdrop-blur-md shadow-sm border-b border-deep-espresso/5"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 font-heading text-lg sm:text-xl font-extrabold tracking-tight sm:tracking-normal text-deep-espresso">
-            <Image src="/logo.webp" alt="My Hometown Media Logo" width={40} height={40} className="h-8 w-auto sm:h-10 object-contain" />
-            <span>My Hometown<span className="text-warm-amber">Media</span></span>
-          </a>
+          {/* Left side: ThemeSwitcher & Logo */}
+          <div className="flex items-center gap-4">
+            <ThemeSwitcher />
+            <a href="#" className="flex items-center gap-2 font-heading text-lg sm:text-xl font-extrabold tracking-tight sm:tracking-normal text-deep-espresso">
+              <Image src="/logo.webp" alt="My Hometown Media Logo" width={40} height={40} className="h-8 w-auto sm:h-10 object-contain" />
+              <span>My Hometown<span className="text-warm-amber">Media</span></span>
+            </a>
+          </div>
 
           {/* Desktop Nav */}
           <div className="hidden items-center gap-8 md:flex">
@@ -41,33 +45,37 @@ export default function Navigation() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="rounded-full bg-warm-amber px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-warm-amber-hover"
-            >
-              Get in Touch
-            </a>
+            <div className="flex items-center gap-4 border-l border-deep-espresso/10 pl-6">
+              <a
+                href="#contact"
+                className="rounded-full bg-warm-amber px-5 py-2.5 font-heading text-sm font-bold text-white transition-colors hover:bg-warm-amber-hover"
+              >
+                Get in Touch
+              </a>
+            </div>
           </div>
 
           {/* Mobile Hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "translate-y-2 rotate-45" : ""
-                }`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "opacity-0" : ""
-                }`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "-translate-y-2 -rotate-45" : ""
-                }`}
-            />
-          </button>
+          <div className="flex items-center gap-4 md:hidden">
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5"
+              aria-label="Toggle menu"
+            >
+              <span
+                className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "translate-y-2 rotate-45" : ""
+                  }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "opacity-0" : ""
+                  }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-deep-espresso transition-all duration-300 ${mobileOpen ? "-translate-y-2 -rotate-45" : ""
+                  }`}
+              />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -94,7 +102,7 @@ export default function Navigation() {
             <a
               href="#contact"
               onClick={() => setMobileOpen(false)}
-              className="rounded-full bg-warm-amber px-8 py-3 font-heading text-lg font-bold text-white transition-colors hover:bg-warm-amber-hover"
+              className="rounded-full bg-warm-amber px-8 py-3 font-heading text-lg font-bold text-white transition-colors hover:bg-warm-amber-hover mt-4"
             >
               Get in Touch
             </a>
