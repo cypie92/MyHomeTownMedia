@@ -7,6 +7,8 @@ export const NAV_LINKS = [
 ];
 
 export const STATS = [
+  { value: 9, suffix: "M+", label: "Fans & Followers", featured: true },
+  { value: 100, suffix: "M+", label: "Monthly Online Traffic", featured: true },
   { value: 12, suffix: "+", label: "Years of Proven Expertise" },
   { value: 30, suffix: "+", label: "Social Media Platforms Mastered" },
   { value: 3000, suffix: "+", label: "Satisfied Clients" },

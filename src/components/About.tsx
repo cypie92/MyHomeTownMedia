@@ -34,24 +34,6 @@ export default function About() {
             advertising, marketing, and communications services designed to
             resonate with audiences from the inside-out.
           </p>
-          <div className="mt-8 flex gap-8">
-            <div>
-              <span className="font-heading text-2xl font-extrabold text-warm-amber">
-                9M+
-              </span>
-              <p className="mt-1 font-body text-sm text-warm-gray">
-                Fans & Followers
-              </p>
-            </div>
-            <div>
-              <span className="font-heading text-2xl font-extrabold text-warm-amber">
-                100M+
-              </span>
-              <p className="mt-1 font-body text-sm text-warm-gray">
-                Monthly Online Traffic
-              </p>
-            </div>
-          </div>
         </motion.div>
 
         {/* Image */}
