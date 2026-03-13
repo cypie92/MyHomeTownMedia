@@ -2,15 +2,15 @@ import { NAV_LINKS, SOCIAL_LINKS, CONTACT_INFO } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="bg-deep-espresso py-14">
+    <footer className="bg-[#1a1a1a] py-14">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Brand */}
           <div>
-            <span className="font-heading text-xl font-extrabold text-soft-white">
+            <span className="font-heading text-xl font-extrabold text-[#f5f5f4]">
               My Hometown<span className="text-warm-amber">Media</span>
             </span>
-            <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-soft-white/60">
+            <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-[#f5f5f4]/60">
               Malaysia&apos;s leading force in social media marketing —
               empowering brands since 2014.
             </p>
@@ -22,7 +22,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-soft-white/10 text-soft-white/70 transition-colors hover:bg-warm-amber hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f5f5f4]/10 text-[#f5f5f4]/70 transition-colors hover:bg-warm-amber hover:text-white"
                 >
                   {link.icon === "instagram" && (
                     <svg className="h-4.5 w-4.5" fill="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading text-sm font-bold tracking-wide text-soft-white uppercase">
+            <h4 className="font-heading text-sm font-bold tracking-wide text-[#f5f5f4] uppercase">
               Quick Links
             </h4>
             <ul className="mt-4 space-y-3">
@@ -54,7 +54,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-body text-sm text-soft-white/60 transition-colors hover:text-warm-amber"
+                    className="font-body text-sm text-[#f5f5f4]/60 transition-colors hover:text-warm-amber"
                   >
                     {link.label}
                   </a>
@@ -65,10 +65,10 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-heading text-sm font-bold tracking-wide text-soft-white uppercase">
+            <h4 className="font-heading text-sm font-bold tracking-wide text-[#f5f5f4] uppercase">
               Contact
             </h4>
-            <ul className="mt-4 space-y-3 font-body text-sm text-soft-white/60">
+            <ul className="mt-4 space-y-3 font-body text-sm text-[#f5f5f4]/60">
               <li>{CONTACT_INFO.address}</li>
               <li>
                 <a
@@ -94,8 +94,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-soft-white/10 pt-6 text-center">
-          <p className="font-body text-xs text-soft-white/40">
+        <div className="mt-12 border-t border-[#f5f5f4]/10 pt-6 text-center">
+          <p className="font-body text-xs text-[#f5f5f4]/40">
             &copy; 2026 MLBS International Marketing Sdn Bhd. All rights
             reserved.
           </p>

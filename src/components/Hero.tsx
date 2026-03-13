@@ -163,17 +163,17 @@ export default function Hero() {
 
         {/* Fallback background while video loads */}
         <div
-          className={`absolute inset-0 bg-deep-espresso transition-opacity duration-1000 ${
+          className={`absolute inset-0 bg-[#1a1a1a] transition-opacity duration-1000 ${
             videoReady ? "opacity-0" : "opacity-100"
           }`}
         />
 
         {/* Subtle overlay for visual depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-deep-espresso/20 via-transparent to-deep-espresso/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a]/20 via-transparent to-[#1a1a1a]/30" />
       </section>
 
       {/* Content section — scrolls up and covers the video */}
-      <section className="relative z-10 bg-deep-espresso md:-mt-10 md:rounded-t-3xl md:bg-[#FBE8D3]/25 md:shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:backdrop-blur-sm">
+      <section className="relative z-10 bg-[#1a1a1a] md:-mt-10 md:rounded-t-3xl md:bg-light-sand/25 md:shadow-[0_-10px_40px_rgba(0,0,0,0.3)] md:backdrop-blur-sm">
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-6 pt-10 pb-10 text-center md:pt-20 md:pb-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -85,6 +85,150 @@
     --t-warm-ivory: #404040;
     --t-warm-gray: #A3A3A3;
   }
+
+  /* LIGHT INDIGO */
+  [data-theme="light-indigo"] {
+    --t-soft-white: #F5F3FF;
+    --t-warm-amber: #6366F1;
+    --t-warm-amber-hover: #4F46E5;
+    --t-soft-peach: #A5B4FC;
+    --t-deep-espresso: #1E1B4B;
+    --t-light-sand: #EDE9FE;
+    --t-warm-ivory: #F5F3FF;
+    --t-warm-gray: #6B7280;
+  }
+
+  /* DARK INDIGO */
+  [data-theme="dark-indigo"] {
+    --t-soft-white: #0F0D1A;
+    --t-warm-amber: #818CF8;
+    --t-warm-amber-hover: #6366F1;
+    --t-soft-peach: #C7D2FE;
+    --t-deep-espresso: #F5F3FF;
+    --t-light-sand: #1E1B3A;
+    --t-warm-ivory: #312E5C;
+    --t-warm-gray: #9CA3AF;
+  }
+
+  /* LIGHT EMERALD */
+  [data-theme="light-emerald"] {
+    --t-soft-white: #F0FDF4;
+    --t-warm-amber: #10B981;
+    --t-warm-amber-hover: #059669;
+    --t-soft-peach: #6EE7B7;
+    --t-deep-espresso: #022C22;
+    --t-light-sand: #D1FAE5;
+    --t-warm-ivory: #ECFDF5;
+    --t-warm-gray: #6B7280;
+  }
+
+  /* DARK EMERALD */
+  [data-theme="dark-emerald"] {
+    --t-soft-white: #0A1A14;
+    --t-warm-amber: #34D399;
+    --t-warm-amber-hover: #10B981;
+    --t-soft-peach: #6EE7B7;
+    --t-deep-espresso: #F0FDF4;
+    --t-light-sand: #1A2E25;
+    --t-warm-ivory: #2D4A3E;
+    --t-warm-gray: #9CA3AF;
+  }
+
+  /* LIGHT SLATE */
+  [data-theme="light-slate"] {
+    --t-soft-white: #F8FAFC;
+    --t-warm-amber: #475569;
+    --t-warm-amber-hover: #334155;
+    --t-soft-peach: #94A3B8;
+    --t-deep-espresso: #0F172A;
+    --t-light-sand: #E2E8F0;
+    --t-warm-ivory: #F1F5F9;
+    --t-warm-gray: #64748B;
+  }
+
+  /* DARK SLATE */
+  [data-theme="dark-slate"] {
+    --t-soft-white: #0F172A;
+    --t-warm-amber: #94A3B8;
+    --t-warm-amber-hover: #CBD5E1;
+    --t-soft-peach: #CBD5E1;
+    --t-deep-espresso: #F1F5F9;
+    --t-light-sand: #1E293B;
+    --t-warm-ivory: #334155;
+    --t-warm-gray: #94A3B8;
+  }
+
+  /* LIGHT OCEAN */
+  [data-theme="light-ocean"] {
+    --t-soft-white: #F0F7FF;
+    --t-warm-amber: #0369A1;
+    --t-warm-amber-hover: #075985;
+    --t-soft-peach: #7DD3FC;
+    --t-deep-espresso: #0C2D48;
+    --t-light-sand: #E0F2FE;
+    --t-warm-ivory: #F0F9FF;
+    --t-warm-gray: #64748B;
+  }
+
+  /* DARK OCEAN */
+  [data-theme="dark-ocean"] {
+    --t-soft-white: #0B1929;
+    --t-warm-amber: #38BDF8;
+    --t-warm-amber-hover: #0EA5E9;
+    --t-soft-peach: #7DD3FC;
+    --t-deep-espresso: #F0F9FF;
+    --t-light-sand: #132F4C;
+    --t-warm-ivory: #1E3A5F;
+    --t-warm-gray: #94A3B8;
+  }
+
+  /* LIGHT CORAL */
+  [data-theme="light-coral"] {
+    --t-soft-white: #FFF7F5;
+    --t-warm-amber: #E8613C;
+    --t-warm-amber-hover: #D14D29;
+    --t-soft-peach: #FDBA9E;
+    --t-deep-espresso: #3B1A0E;
+    --t-light-sand: #FEE4DA;
+    --t-warm-ivory: #FFF1EC;
+    --t-warm-gray: #8B6E62;
+  }
+
+  /* DARK CORAL */
+  [data-theme="dark-coral"] {
+    --t-soft-white: #1A1210;
+    --t-warm-amber: #FB923C;
+    --t-warm-amber-hover: #F97316;
+    --t-soft-peach: #FDBA74;
+    --t-deep-espresso: #FFF7ED;
+    --t-light-sand: #2D1F18;
+    --t-warm-ivory: #4A3228;
+    --t-warm-gray: #A8A29E;
+  }
+
+  /* LIGHT VIOLET */
+  [data-theme="light-violet"] {
+    --t-soft-white: #FAF5FF;
+    --t-warm-amber: #9333EA;
+    --t-warm-amber-hover: #7E22CE;
+    --t-soft-peach: #C084FC;
+    --t-deep-espresso: #2E1065;
+    --t-light-sand: #F3E8FF;
+    --t-warm-ivory: #FAF5FF;
+    --t-warm-gray: #78716C;
+  }
+
+  /* DARK VIOLET */
+  [data-theme="dark-violet"] {
+    --t-soft-white: #120B20;
+    --t-warm-amber: #A855F7;
+    --t-warm-amber-hover: #9333EA;
+    --t-soft-peach: #C084FC;
+    --t-deep-espresso: #FAF5FF;
+    --t-light-sand: #1E1535;
+    --t-warm-ivory: #352A52;
+    --t-warm-gray: #A8A29E;
+  }
 }
 
 @keyframes marquee {

@@ -51,6 +51,17 @@ export default function RootLayout({
           attribute="data-theme"
           defaultTheme="light-amber"
           enableSystem={false}
+          themes={[
+            "light-amber", "dark-amber",
+            "light-teal", "dark-teal",
+            "light-rose", "dark-rose",
+            "light-indigo", "dark-indigo",
+            "light-emerald", "dark-emerald",
+            "light-slate", "dark-slate",
+            "light-ocean", "dark-ocean",
+            "light-coral", "dark-coral",
+            "light-violet", "dark-violet",
+          ]}
         >
           {children}
         </ThemeProvider>

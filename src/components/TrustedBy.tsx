@@ -31,7 +31,7 @@ const ROW_2 = [
 
 function LogoCard({ name }: { name: string }) {
   return (
-    <div className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-deep-espresso/5 sm:h-24 sm:w-52">
+    <div className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl bg-warm-ivory shadow-sm ring-1 ring-deep-espresso/5 sm:h-24 sm:w-52">
       {/* Replace with <Image> when real logos are available */}
       <span className="font-heading text-xs font-semibold text-warm-gray/60 select-none">
         {name}

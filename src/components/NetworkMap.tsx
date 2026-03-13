@@ -229,7 +229,7 @@ function PlatformPill({
         className={`flex items-center gap-3.5 rounded-full border px-7 py-3.5 shadow-sm transition-all hover:shadow-md ${
           isOpen
             ? "border-deep-espresso/15 bg-deep-espresso/[0.03] shadow-md"
-            : "border-deep-espresso/[0.06] bg-white"
+            : "border-deep-espresso/[0.06] bg-warm-ivory"
         }`}
       >
         <div style={{ color }}>
@@ -252,11 +252,11 @@ function PlatformPill({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute bottom-full left-1/2 z-50 mb-3 w-[340px] -translate-x-1/2 rounded-2xl border border-deep-espresso/[0.08] bg-white p-2 shadow-[0_12px_40px_-8px_rgba(44,30,19,0.18)]"
+            className="absolute bottom-full left-1/2 z-50 mb-3 w-[340px] -translate-x-1/2 rounded-2xl border border-deep-espresso/[0.08] bg-warm-ivory p-2 shadow-[0_12px_40px_-8px_rgba(44,30,19,0.18)]"
           >
             {/* Arrow */}
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
-              <div className="h-3 w-3 rotate-45 rounded-sm border-b border-r border-deep-espresso/[0.08] bg-white" />
+              <div className="h-3 w-3 rotate-45 rounded-sm border-b border-r border-deep-espresso/[0.08] bg-warm-ivory" />
             </div>
 
             <div className="max-h-[400px] overflow-y-auto overscroll-contain pb-2 scrollbar-thin">
@@ -354,7 +354,7 @@ function CardContent({ stateId, onClose, showCloseButton = true }: CardContentPr
       {showCloseButton && (
         <button
           onClick={onClose}
-          className="absolute -top-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-white text-deep-espresso/60 shadow-md transition-colors hover:bg-gray-50 hover:text-deep-espresso"
+          className="absolute -top-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-warm-ivory text-deep-espresso/60 shadow-md transition-colors hover:bg-light-sand hover:text-deep-espresso"
         >
           <CloseIcon />
         </button>
@@ -427,7 +427,7 @@ function MiniMap({ stateId }: { stateId: string }) {
   const viewBox = isEast ? EAST_VIEWBOX : WEST_VIEWBOX;
 
   return (
-    <div className="overflow-hidden rounded-xl bg-[#EFF6FA]">
+    <div className="overflow-hidden rounded-xl bg-light-sand">
       <svg viewBox={viewBox} className="w-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="mini-glow">
@@ -667,7 +667,7 @@ export default function NetworkMap() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-deep-espresso/[0.06] bg-white p-6 shadow-[0_8px_40px_-12px_rgba(44,30,19,0.08)] sm:p-10"
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-deep-espresso/[0.06] bg-warm-ivory p-6 shadow-[0_8px_40px_-12px_rgba(44,30,19,0.08)] sm:p-10"
         >
           {/* ── Mobile: Tabs + State List ── */}
           {isMobile ? (
@@ -683,7 +683,7 @@ export default function NetworkMap() {
                     onClick={() => switchRegion(tab.id)}
                     className={`shrink-0 rounded-full px-5 py-2.5 font-heading text-sm font-semibold transition-all duration-300 ${
                       mobileRegion === tab.id
-                        ? "bg-deep-espresso text-white shadow-lg shadow-deep-espresso/20"
+                        ? "bg-warm-amber text-white shadow-lg shadow-warm-amber/20"
                         : "bg-light-sand text-warm-gray hover:bg-warm-ivory hover:text-deep-espresso"
                     }`}
                   >
@@ -731,7 +731,7 @@ export default function NetworkMap() {
           ) : (
             /* ── Desktop: Interactive Map ── */
             <>
-              <div ref={mapContainerRef} className="relative overflow-hidden rounded-2xl bg-[#EFF6FA]">
+              <div ref={mapContainerRef} className="relative overflow-hidden rounded-2xl bg-light-sand">
                 {/* Subtle dot pattern overlay */}
                 <div
                   className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -750,7 +750,7 @@ export default function NetworkMap() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute inset-0 z-20 bg-deep-espresso/20"
+                      className="absolute inset-0 z-20 bg-black/20"
                       onClick={dismiss}
                     />
                   )}
@@ -844,7 +844,7 @@ export default function NetworkMap() {
                         exit={{ scale: 0.9, opacity: 0 }}
                         transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.8 }}
                       >
-                        <div className="rounded-2xl border border-deep-espresso/[0.06] bg-white px-5 py-4 shadow-[0_12px_40px_-8px_rgba(44,30,19,0.15)]">
+                        <div className="rounded-2xl border border-deep-espresso/[0.06] bg-warm-ivory px-5 py-4 shadow-[0_12px_40px_-8px_rgba(44,30,19,0.15)]">
                           <CardContent stateId={selectedState} onClose={dismiss} />
                         </div>
                       </motion.div>
@@ -895,7 +895,7 @@ export default function NetworkMap() {
                 href={page.url || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-deep-espresso/[0.08] bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:h-24 sm:w-24"
+                className="group relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-deep-espresso/[0.08] bg-warm-ivory shadow-sm transition-all hover:-translate-y-1 hover:shadow-md sm:h-24 sm:w-24"
               >
                 {/* Image Placeholder */}
                 <Image
@@ -932,7 +932,7 @@ export default function NetworkMap() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
-              className="fixed right-0 bottom-0 left-0 z-50 rounded-t-3xl bg-white px-6 pb-10 pt-3 shadow-[0_-8px_40px_-12px_rgba(44,30,19,0.15)]"
+              className="fixed right-0 bottom-0 left-0 z-50 rounded-t-3xl bg-warm-ivory px-6 pb-10 pt-3 shadow-[0_-8px_40px_-12px_rgba(44,30,19,0.15)]"
             >
               {/* Drag handle */}
               <div className="mb-3 flex items-center justify-center">

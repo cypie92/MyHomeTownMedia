@@ -59,7 +59,7 @@ export default function Showcases() {
                   delay: index * 0.2,
                   ease: "easeOut",
                 }}
-                className="group overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className="group overflow-hidden rounded-2xl bg-warm-ivory shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 <div className="aspect-video w-full overflow-hidden bg-light-sand relative">
                   <div className="absolute inset-0 overflow-hidden bg-black pointer-events-none">
@@ -87,7 +87,7 @@ export default function Showcases() {
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group inline-flex items-center gap-2 rounded-full bg-deep-espresso px-8 py-3.5 font-heading text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-warm-amber hover:shadow-xl hover:scale-105 active:scale-100"
+              className="group inline-flex items-center gap-2 rounded-full bg-warm-amber px-8 py-3.5 font-heading text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-warm-amber-hover hover:shadow-xl hover:scale-105 active:scale-100"
             >
               View More Showcases
               <svg
@@ -116,7 +116,7 @@ export default function Showcases() {
           >
             {/* Backdrop */}
             <div
-              className="absolute inset-0 bg-deep-espresso/90 backdrop-blur-xl"
+              className="absolute inset-0 bg-[#1a1a1a]/90 backdrop-blur-xl"
               onClick={() => setIsOpen(false)}
             />
 
@@ -126,11 +126,11 @@ export default function Showcases() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 30 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex h-[90vh] w-[95vw] max-w-6xl flex-col overflow-hidden rounded-[2rem] bg-deep-espresso shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10"
+              className="relative flex h-[90vh] w-[95vw] max-w-6xl flex-col overflow-hidden rounded-[2rem] bg-[#1a1a1a] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header — Fixed Navbar */}
-              <div className="relative z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-deep-espresso/80 px-6 py-5 backdrop-blur-lg sm:px-10">
+              <div className="relative z-20 flex shrink-0 items-center justify-between border-b border-white/10 bg-[#1a1a1a]/80 px-6 py-5 backdrop-blur-lg sm:px-10">
                 <div>
                   <motion.p
                     initial={{ opacity: 0, x: -10 }}
@@ -195,7 +195,7 @@ export default function Showcases() {
                         {/* Timeline Center Node (Desktop only) */}
                         <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:flex h-12 w-12 items-center justify-center z-20">
                           <div className="absolute inset-0 animate-ping rounded-full bg-warm-amber/20" style={{ animationDuration: "3s" }} />
-                          <div className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-warm-amber bg-deep-espresso text-xs font-bold text-warm-amber shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                          <div className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-warm-amber bg-[#1a1a1a] text-xs font-bold text-warm-amber shadow-[0_0_15px_rgba(212,175,55,0.4)]">
                             {item.chapter}
                           </div>
                         </div>
@@ -236,7 +236,7 @@ export default function Showcases() {
                 </div>
 
                 {/* Footer CTA */}
-                <div className="relative border-t border-white/10 bg-deep-espresso px-6 py-20 text-center sm:px-12">
+                <div className="relative border-t border-white/10 bg-[#1a1a1a] px-6 py-20 text-center sm:px-12">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}

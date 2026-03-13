@@ -20,7 +20,7 @@ function InstaCard({
       transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
       className="w-[280px] flex-shrink-0 snap-center sm:w-[300px]"
     >
-      <div className="overflow-hidden rounded-3xl border border-deep-espresso/10 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md">
+      <div className="overflow-hidden rounded-3xl border border-deep-espresso/10 bg-warm-ivory shadow-sm transition-shadow duration-300 hover:shadow-md">
         {/* Header — name only */}
         <div className="border-b border-deep-espresso/5 px-5 py-3">
           <h3 className="font-heading text-xl font-bold text-deep-espresso">
